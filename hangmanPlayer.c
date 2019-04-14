@@ -46,6 +46,34 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 // b.         false               partial word without the guessed letter
 void feedback_hangman_player(bool is_correct_guess, char* current_word)
 {
-
+	//James' work
+	if(is_correct_guess==true){
+		rewrite_letter_freq(current_word);
+	}
+	else{
+		//guess again
+	}
 }
 
+void rewrite_letter_freq(char *current_word){
+	
+	//go to primary array with word len=current_word len
+	int len=strlen(current_word);
+	int counter=0;
+	char copy[len];
+	
+	
+	for(int i=0;i<PMS[len].word_count;i++){
+		strcpy(copy, PMS[len].array_loc[i];
+		for(int k=0;k<len;k++){
+			if(current_word[k]!=NULL){
+				if(current_word[k]==copy[k]){
+					strcpy(PMS[len].array_loc[counter],copy);
+					counter++;
+				}
+			}
+			counter=0;
+		}
+	}
+	
+}
