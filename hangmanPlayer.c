@@ -131,12 +131,7 @@ void feedback_hangman_player(bool is_correct_guess, char* current_word)
 	}
 	else{
 		//guess again
-	if(is_correct_guess){
-		guess_hangman_player(current_word, TRUE);
-	}
-	else{
-		//rewrite frequency
-	}
+		
 }
 
 void rewrite_letter_freq(char *current_word){
