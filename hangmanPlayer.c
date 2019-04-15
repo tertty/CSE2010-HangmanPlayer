@@ -291,7 +291,7 @@ void feedback_hangman_player(bool is_correct_guess, char* current_word)
 		rewrite_letter_freq(current_word);
 	}
 	else{
-		//guess again
+		guess_hangman_player(current_word, FALSE);
 	}
 }
 
@@ -313,6 +313,66 @@ void rewrite_letter_freq(char *current_word){
 				}
 			}
 			counter=0;
+		}
+	}
+	
+	for(int p = 0; p<PMS[len].word_count; p++){
+		strcpy(copy, PMS[len].array_loc[i];
+		for(int q = 0; q<len; q++){
+			switch(q){
+				case 'a': PMS[len].letter_freq[0]++;
+						  break;
+				case 'b': PMS[len].letter_freq[1]++;
+						  break;
+				case 'c': PMS[len].letter_freq[2]++;
+						  break;
+				case 'd': PMS[len].letter_freq[3]++;
+						  break;
+				case 'e': PMS[len].letter_freq[4]++;
+						  break;
+				case 'f': PMS[len].letter_freq[5]++;
+						  break;
+				case 'g': PMS[len].letter_freq[6]++;
+						  break;
+				case 'h': PMS[len].letter_freq[7]++;
+						  break;
+				case 'i': PMS[len].letter_freq[8]++;
+						  break;
+				case 'j': PMS[len].letter_freq[9]++;
+						  break;
+				case 'k': PMS[len].letter_freq[10]++;
+						  break;
+				case 'l': PMS[len].letter_freq[11]++;
+						  break;
+				case 'm': PMS[len].letter_freq[12]++;
+						  break;
+				case 'n': PMS[len].letter_freq[13]++;
+						  break;
+				case 'o': PMS[len].letter_freq[14]++;
+						  break;
+				case 'p': PMS[len].letter_freq[15]++;
+						  break;
+				case 'q': PMS[len].letter_freq[16]++;
+						  break;
+				case 'r': PMS[len].letter_freq[17]++;
+						  break;
+				case 's': PMS[len].letter_freq[18]++;
+						  break;
+				case 't': PMS[len].letter_freq[19]++;
+						  break;
+				case 'u': PMS[len].letter_freq[20]++;
+						  break;
+				case 'v': PMS[len].letter_freq[21]++;
+						  break;
+				case 'w': PMS[len].letter_freq[22]++;
+						  break;
+				case 'x': PMS[len].letter_freq[23]++;
+						  break;
+				case 'y': PMS[len].letter_freq[24]++;
+						  break;
+				case 'z': PMS[len].letter_freq[25]++;
+						  break;
+			}
 		}
 	}
 	
