@@ -306,18 +306,16 @@ void rewrite_letter_freq(char *current_word){
 	for(int i=0;i<PMS[len].word_count;i++){
 		strcpy(copy, PMS[len].array_loc[i]);
 		for(int k=0;k<len;k++){
-			if(current_word[k]!=NULL){
-				if(current_word[k]==copy[k]){
-					strcpy(PMS[len].array_loc[counter],copy);
-					counter++;
-				}
+			if(current_word[k]==copy[k]){
+				strcpy(PMS[len].array_loc[counter],copy);
+				counter++;
 			}
 			counter=0;
 		}
 	}
 	
 	for(int p = 0; p<PMS[len].word_count; p++){
-		strcpy(copy, PMS[len].array_loc[i];
+		strcpy(copy, PMS[len].array_loc[p]);
 		for(int q = 0; q<len; q++){
 			switch(q){
 				case 'a': PMS[len].letter_freq[0]++;
