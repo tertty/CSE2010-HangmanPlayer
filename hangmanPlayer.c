@@ -1,8 +1,8 @@
 /*
 
-  Authors (group members): Taylor (Leader), Noah Wilson, Matt, James
+  Authors (group members): Taylor Ertrachter (Leader), Noah Wilson, Matthew Dawson, James Spies
   // Email addresses of group members: wilsonn2018@my.fit.edu, 
-  Group name: Dream Team
+  Group name: ~Dream Team~
 
   Course: CSE 2010
   Section: 23
@@ -17,18 +17,179 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 
-typedef struct Primary{
+#define max_word_len 27
+
+typedef struct PRIMARY{
 	int word_count;
 	int letter_freq[26];
 	int *array_loc;
-}Primary;
+}PRIMARY;
+
+  // Create overarching structure "PRIMARY MANAGMENT STRUCT"
+  // Even if max_word_len is much over the actual max word, the wasted data
+  // is neglagible since we find the acutal longest len before we malloc the larger file location arrays
+  PRIMARY PMS[max_word_len];
+
+void WRITE(FILE *MASTER_FILE, PRIMARY *PMS);
+void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS);
+void rewrite_letter_freq(char *current_word);
 
 // initialize data structures from the word file
 void init_hangman_player(char* word_file)
 {
 	
+	  int i, j;
+  FILE * MASTER_FILE;
+
+  // !!!!! MASTER FILE MUST ALWAYS STAY ASSINGED TO ITS CURRENT MEM ADDRESS
+  // !!!!!! i.e. never fclose this unless a win or loss occcurs
+  if((MASTER_FILE = fopen(word_file, "r")) == 0){
+    printf("incorrect file 1 name \n");
+    fclose(MASTER_FILE);
+    return ;
+  }
+
+  for(i=0;i<max_word_len;i++){
+    PMS[i].word_count = 0;
+    PMS[i].array_loc = 0;
+    for(j=0;j<26;j++){
+      PMS[i].letter_freq[j] =0;
+    }
+  }
+  
+  WRITE(MASTER_FILE, PMS);
+  T_PRINT(MASTER_FILE, PMS);
+  fseek(MASTER_FILE, 0, SEEK_SET);
+  printf("\n");
+  
+  return ;
 	
+}
+
+void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
+	
+  int i = 0;
+  int j = 0;
+  int k = 0;
+  int flag = 0;
+  int l_var = 0;
+  int true_max_len = 0;   // to find the "actual" longest word
+  int cur_len = 0;
+  int long pos;
+  char c_word[max_word_len]; //current word scaned in, not the other word you pervert
+
+
+
+
+
+  // loop through entire word list
+  // For each word of length n, get its total number of occurence so we can malloc array after
+  // Get the total frequency of letters occuring for each
+  /////   // We just need lenght of words not to copy as entire string them has to be a faster way
+  /////   // to get just the lenght should be able to just ++ char untill '\0' ??
+  while (fscanf(MASTER_FILE, "%s", c_word) == 1) {
+
+    // find the lenght of the word
+    cur_len = strlen(c_word);
+
+    if (cur_len > true_max_len) {
+      true_max_len = cur_len;
+    }
+
+    // Increment total amount of words for the found length
+    // Must subtract to offset index
+    PMS[cur_len - 1].word_count++;
+    printf("Len: %d Word: %s Len_Occurance:%d\n", cur_len, c_word, PMS[cur_len - 1].word_count);
+
+  }
+  /////////////////////////////
+  /// END OF FIRST SCAN TO FIND
+  /// 1. True Max Length
+  /// 2. Find word totals for each length
+  /// ///////////////////////////// ///////////////////////////// /////////////////////////////
+  // Create arrays to fill w/ the file position of word w/ coresponding length. We use true max to save memory
+  // in case max_word_len will liekly be larger
+  for (i = 0; i < true_max_len; i++) {
+    printf("%d", PMS[i].word_count);
+    PMS[i].array_loc = (int long *) malloc(PMS[i].word_count * sizeof(int long));
+
+    // Might Not Need
+    // where -1 is saved a int long value
+//    for (j = 0; j < PMS[i].word_count; j++) {
+//      PMS[i].array_loc[j] = -1;
+//      printf("%ld", PMS[i].array_loc[j]);
+//    }
+    printf("\n");
+  }
+  ///////////////////////////// Loop through for each length,  /////////////////////////////
+  // Here we are adding in the locations of the word, and generating frequency
+
+  for (i = 0; i < true_max_len; i++) {
+    // Reset the file pointer to the begining position
+    fseek(MASTER_FILE, 0, 0);
+    k = 0;
+    flag = 0;
+    pos = ftell(MASTER_FILE);
+    fscanf(MASTER_FILE, "%s", c_word);
+    while (flag != -1) {
+      printf("**%s**\n", c_word);
+      if (strlen(c_word) == i + 1) {
+        c_word[0] = tolower(c_word[0]);
+        //pos = ftell(MASTER_FILE);
+        PMS[i].array_loc[k] = pos;
+        printf("Struct[%d].array_loc[%d] Word: %s Posn: %ld \n", i, k, c_word, pos);
+        k++;
+
+        // Get frequency
+        // to avoid massive swith statement for each case of a, b, c, d ect
+        // convert letter to integer, subtract from asci value of a = 97
+        // ex. b=98, 98-97 = 1, index 1 (correlates to b) is incremented
+        // leave l_var as is, some reason you cant subtract 97 on same line...
+
+        for (j = 0; j <= i; j++) {
+          l_var = c_word[j];
+          l_var = l_var - 97;
+          printf("%c - a = %d \n", c_word[j], l_var);
+          PMS[cur_len].letter_freq[l_var]++;
+        }
+        printf("\n");
+      }
+
+      pos = ftell(MASTER_FILE);
+      if (fscanf(MASTER_FILE, "%s", c_word) != 1) {
+        flag = -1;
+        printf("c_word: %s \n", c_word);
+      }
+
+    }
+    printf("\n\n\n");
+  }
+  
+  return ;
+}
+
+
+void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS){
+  int i = 0,j;
+  int long pos;
+  char temp[max_word_len];
+
+  while (i < max_word_len){
+
+    for(j=0;j<PMS[i].word_count;j++) {
+      pos = PMS[i].array_loc[j];
+      fseek(MASTER_FILE, pos, 0);
+      fscanf(MASTER_FILE, "%s\n", temp);
+      printf("Struct[%d].array_loc[%d] total: %d Word: %s Posn %ld \n",i, j, PMS[i].word_count, temp, pos);
+    }
+
+    i++;
+  }
+  
+  return ;
+
 }
 
 // based on the current (partially filled or intitially blank) word, guess a letter
@@ -131,7 +292,7 @@ void feedback_hangman_player(bool is_correct_guess, char* current_word)
 	}
 	else{
 		//guess again
-		
+	}
 }
 
 void rewrite_letter_freq(char *current_word){
@@ -143,7 +304,7 @@ void rewrite_letter_freq(char *current_word){
 	
 	
 	for(int i=0;i<PMS[len].word_count;i++){
-		strcpy(copy, PMS[len].array_loc[i];
+		strcpy(copy, PMS[len].array_loc[i]);
 		for(int k=0;k<len;k++){
 			if(current_word[k]!=NULL){
 				if(current_word[k]==copy[k]){
