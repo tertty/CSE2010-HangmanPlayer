@@ -129,7 +129,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
     fscanf(MASTER_FILE, "%s", c_word);
     while (flag != -1) {
       printf("**%s**\n", c_word);
-      if (((cur_len = strlen(c_word) == i + 1))){
+      if (((cur_len = strlen(c_word)) == (i + 1))){
         c_word[0] = tolower(c_word[0]);
         //pos = ftell(MASTER_FILE);
         PMS[i].array_loc[k] = pos;
