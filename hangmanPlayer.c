@@ -24,7 +24,7 @@
 typedef struct PRIMARY{
 	int word_count;
 	int letter_freq[26];
-	int long *array_loc;
+	int *array_loc;
 }PRIMARY;
 
   // Create overarching structure "PRIMARY MANAGMENT STRUCT"
@@ -78,8 +78,8 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
   int flag = 0;
   int l_var = 0;
   int true_max_len = 0;   // to find the "actual" longest word
-  int cur_len = 0;
-  int long pos;
+  int cur_len = 0;				// removed int long
+  int pos;
   char c_word[max_word_len]; //current word scaned in, not the other word you pervert
 
 
@@ -95,7 +95,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
 
     // find the lenght of the word
     cur_len = strlen(c_word);
-  	TEMP.array_loc = (int long *) malloc(max_word_len * sizeof(int long));
+  	TEMP.array_loc = (int *) malloc(max_word_len * sizeof(int)); // removed int long
     if (cur_len > true_max_len) {
       true_max_len = cur_len;
     }
@@ -116,7 +116,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
   // in case max_word_len will liekly be larger
   for (i = 0; i < true_max_len; i++) {
     printf("%d", PMS[i].word_count);
-    PMS[i].array_loc = (int long *) malloc(PMS[i].word_count * sizeof(int long));
+    PMS[i].array_loc = (int *) malloc(PMS[i].word_count * sizeof(int)); // removed int long
     printf("\n");
   }
   ///////////////////////////// Loop through for each length,  /////////////////////////////
@@ -135,7 +135,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
         c_word[0] = tolower(c_word[0]);
         //pos = ftell(MASTER_FILE);
         PMS[i].array_loc[k] = pos;
-        printf("Struct[%d].array_loc[%d] Word: %s Posn: %ld \n", i, k, c_word, pos);
+        printf("Struct[%d].array_loc[%d] Word: %s Posn: %d \n", i, k, c_word, pos);
         k++;
 
         // Get frequency
@@ -477,7 +477,7 @@ void rewrite_letter_freq(char *current_word){
 
 void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS){
   int i = 0,j;
-  int long pos;
+  int pos;
   char temp[max_word_len];
 
   while (i < max_word_len){
@@ -486,7 +486,7 @@ void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS){
       pos = PMS[i].array_loc[j];
       fseek(MASTER_FILE, pos, 0);
       fscanf(MASTER_FILE, "%s\n", temp);
-      printf("Struct[%d].array_loc[%d] total: %d Word: %s Posn %ld \n",i, j, PMS[i].word_count, temp, pos);
+      printf("Struct[%d].array_loc[%d] total: %d Word: %s Posn %d \n",i, j, PMS[i].word_count, temp, pos);
     }
 
     i++;
@@ -497,7 +497,7 @@ void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS){
 void
 T_FREQ(PRIMARY *PMS){
   int i = 0,j;
-  int long pos;
+  int pos;
   char temp[max_word_len];
 
   while (i < max_word_len){
