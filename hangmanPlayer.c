@@ -207,16 +207,15 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	// with the frequency of the next letter. Whichever is greater, the index of that letter frequency is stored to best_guess.
 	for(int i = 0; i < 26; i++){
 		if(is_new_word==true){
-			if(PMS[length].letter_freq[i] > PMS[length].letter_freq[best_guess]){
+			if(PMS[length-1].letter_freq[i] > PMS[length-1].letter_freq[best_guess]){
 				printf("i = %d\n", i);
 				printf("best_guess = %d\n", best_guess);
 				best_guess = i;
 				printf("NEW best_guess = %d\n", best_guess);
-				is_new_word = false;
 			}
 		}
 		else{
-			if((PMS[length].letter_freq[i] > PMS[length].letter_freq[best_guess]) &&(PMS[length].letter_freq[i] < upper_bound)){
+			if((PMS[length-1].letter_freq[i] > PMS[length-1].letter_freq[best_guess]) && (PMS[length-1].letter_freq[i] < upper_bound)){
 				printf("else i = %d\n", i);
 				printf("else best_guess = %d\n", best_guess);
 				best_guess = i;
