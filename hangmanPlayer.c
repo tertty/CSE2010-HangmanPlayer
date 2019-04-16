@@ -201,17 +201,32 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	int length = strlen(current_word); //The length of the word
 	printf("The length of the word is %d\n", length);
 	
+	static char guess_again=' ';
+	static int upper_bound;
+	
 	// The for loop loops through every letter frequency of PMS[word_length] and compares the frequency of that letter
 	// with the frequency of the next letter. Whichever is greater, the index of that letter frequency is stored to best_guess.
 	for(int i = 0; i < 26; i++){
-		if(PMS[length].letter_freq[i] > PMS[length].letter_freq[check]){
-			best_guess = i;
+		if(is_new_word==true){
+			if(PMS[length].letter_freq[i] > PMS[length].letter_freq[check]){
+				best_guess = i;
+			}
+			check = i;
 		}
-		check = i;
+		else{
+			if((PMS[length].letter_freq[i] > PMS[length].letter_freq[check]) &&(PMS[length].letter_freq[i] < upper_bound)){
+				best_guess = i;
+			}
+			check = i;
+		}
 	}
+	upper_bound = PMS[length].letter_freq[best_guess];
 	
 	//This switch case sets the letter based on the cooresponding index. i.e. (1=a) (2=b) (3=c)
 	switch(best_guess){
+		
+		guess_again = guess;
+		
 		case 0: guess = 'a';
 				break;
 		case 1: guess = 'b';
