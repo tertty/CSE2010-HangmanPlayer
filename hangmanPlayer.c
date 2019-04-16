@@ -31,6 +31,8 @@ typedef struct PRIMARY{
   // Even if max_word_len is much over the actual max word, the wasted data
   // is neglagible since we find the acutal longest len before we malloc the larger file location arrays
   PRIMARY PMS[max_word_len];
+  
+  FILE * MASTER_FILE;
 
 void WRITE(FILE *MASTER_FILE, PRIMARY *PMS);
 void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS);
@@ -41,7 +43,6 @@ void init_hangman_player(char* word_file)
 {
 	
 	  int i, j;
-  FILE * MASTER_FILE;
 
   // !!!!! MASTER FILE MUST ALWAYS STAY ASSINGED TO ITS CURRENT MEM ADDRESS
   // !!!!!! i.e. never fclose this unless a win or loss occcurs
@@ -310,7 +311,7 @@ void rewrite_letter_freq(char *current_word){
 	}
 	
 	for(int p = 0; p<PMS[len].word_count; p++){
-		fseek(MASTER_FILE, PMS[len].array_loc[i], 0);
+		fseek(MASTER_FILE, PMS[len].array_loc[p], 0);
 		fscanf(MASTER_FILE, "%s", copy);
 		for(int q = 0; q<len; q++){
 			switch(q){
