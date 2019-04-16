@@ -224,7 +224,6 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 			}
 		}
 	}
-	upper_bound = PMS[length].letter_freq[best_guess];
 	
 	//This switch case sets the letter based on the cooresponding index. i.e. (1=a) (2=b) (3=c)
 	switch(best_guess){
@@ -285,20 +284,80 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	}
 	
 	if(is_new_word == false){
-		printf("GUESS: %s /// PREVIOUS GUESS: %s\n", guess, guess_again);
+		printf("GUESS: %c /// PREVIOUS GUESS: %c\n", guess, guess_again);
 		if(guess == guess_again){
 			printf("You are guessing the same guess as your last guess\n");
-			TEMP.letter_freq[best_guess] = -1;
+			PMS[length].letter_freq[best_guess] = -1;
 			for(int r = 0; r < 26; r++){
-				if(TEMP.letter_freq[r] > TEMP.letter_freq[best_guess]){
-					printf("i = %d\n", r);
+				if((PMS[length].letter_freq[r] > PMS[length].letter_freq[best_guess]) && (PMS[length].letter_freq[r] > upper_bound)){
+					printf("r = %d\n", r);
 					printf("best_guess = %d\n", best_guess);
 					best_guess = r;
 					printf("NEW best_guess = %d\n", best_guess);
 				}
 			}
 		}
+		//This switch case sets the letter based on the cooresponding index. i.e. (1=a) (2=b) (3=c)
+		switch(best_guess){
+			
+			case 0: guess = 'a';
+					break;
+			case 1: guess = 'b';
+					break;
+			case 2: guess = 'c';
+					break;
+			case 3: guess = 'd';
+					break;
+			case 4: guess = 'e';
+					break;
+			case 5: guess = 'f';
+					break;
+			case 6: guess = 'g';
+					break;
+			case 7: guess = 'h';
+					break;
+			case 8: guess = 'i';
+					break;
+			case 9: guess = 'j';
+					break;
+			case 10: guess = 'k';
+					break;
+			case 11: guess = 'l';
+					break;
+			case 12: guess = 'm';
+					break;
+			case 13: guess = 'n';
+					break;
+			case 14: guess = 'o';
+					break;
+			case 15: guess = 'p';
+					break;
+			case 16: guess = 'q';
+					break;
+			case 17: guess = 'r';
+					break;
+			case 18: guess = 's';
+					break;
+			case 19: guess = 't';
+					break;
+			case 20: guess = 'u';
+					break;
+			case 21: guess = 'v';
+					break;
+			case 22: guess = 'w';
+					break;
+			case 23: guess = 'x';
+					break;
+			case 24: guess = 'y';
+					break;
+			case 25: guess = 'z';
+					break;
+			default: return(guess);
+		}
+	
 	}
+	
+	upper_bound = PMS[length].letter_freq[best_guess];
 	
 	guess_again = guess;
 	
