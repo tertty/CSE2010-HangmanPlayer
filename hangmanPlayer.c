@@ -35,7 +35,7 @@ typedef struct PRIMARY{
 void WRITE(FILE *MASTER_FILE, PRIMARY *PMS);
 void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS);
 void rewrite_letter_freq(char *current_word);
-
+void T_FREQ(PRIMARY *PMS);
 // initialize data structures from the word file
 void init_hangman_player(char* word_file)
 {
@@ -61,6 +61,7 @@ void init_hangman_player(char* word_file)
   
   WRITE(MASTER_FILE, PMS);
   T_PRINT(MASTER_FILE, PMS);
+  T_FREQ(PMS);
   fseek(MASTER_FILE, 0, SEEK_SET);
   printf("\n");
   
@@ -114,13 +115,6 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
   for (i = 0; i < true_max_len; i++) {
     printf("%d", PMS[i].word_count);
     PMS[i].array_loc = (int long *) malloc(PMS[i].word_count * sizeof(int long));
-
-    // Might Not Need
-    // where -1 is saved a int long value
-//    for (j = 0; j < PMS[i].word_count; j++) {
-//      PMS[i].array_loc[j] = -1;
-//      printf("%ld", PMS[i].array_loc[j]);
-//    }
     printf("\n");
   }
   ///////////////////////////// Loop through for each length,  /////////////////////////////
@@ -309,7 +303,7 @@ void rewrite_letter_freq(char *current_word){
 			if(current_word[k]==copy[k]){
 				strcpy(PMS[len].array_loc[counter],copy);
 				counter++;
-			}
+			s}
 			counter=0;
 		}
 	}
@@ -374,4 +368,22 @@ void rewrite_letter_freq(char *current_word){
 		}
 	}
 	
+}
+
+
+void
+T_FREQ(PRIMARY *PMS){
+  int i = 0,j;
+  int long pos;
+  char temp[max_word_len];
+
+  while (i < max_word_len){
+    printf("Total Words: %d\n",PMS[i].word_count);
+    for(j=0;j<26;j++) {
+      printf("Struct[%d].letter_freq[%d] letter: %c total %d \n",i, j, 'a'+j, PMS[i].letter_freq[j]);
+    }
+    printf("\n");
+    i++;
+  }
+
 }
