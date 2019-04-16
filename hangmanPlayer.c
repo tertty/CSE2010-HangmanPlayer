@@ -61,8 +61,8 @@ void init_hangman_player(char* word_file)
   }
   
   WRITE(MASTER_FILE, PMS);
-  T_PRINT(MASTER_FILE, PMS);
-  T_FREQ(PMS);
+  //T_PRINT(MASTER_FILE, PMS);
+  //T_FREQ(PMS);
   fseek(MASTER_FILE, 0, SEEK_SET);
   printf("\n");
   
@@ -130,7 +130,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
     pos = ftell(MASTER_FILE);
     fscanf(MASTER_FILE, "%s", c_word);
     while (flag != -1) {
-      printf("**%s**\n", c_word);
+      //printf("**%s**\n", c_word);
       if (((cur_len = strlen(c_word)) == (i + 1))){
         c_word[0] = tolower(c_word[0]);
         //pos = ftell(MASTER_FILE);
@@ -147,7 +147,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
         for (j = 0; j <= i; j++) {
           l_var = c_word[j];
           l_var = l_var - 97;
-          printf("%c - a = %d \n", c_word[j], l_var);
+          //printf("%c - a = %d \n", c_word[j], l_var);
           PMS[cur_len-1].letter_freq[l_var]++;
         }
         printf("\n");
@@ -156,37 +156,16 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
       pos = ftell(MASTER_FILE);
       if (fscanf(MASTER_FILE, "%s", c_word) != 1) {
         flag = -1;
-        printf("c_word: %s \n", c_word);
+        //printf("c_word: %s \n", c_word);
       }
 
     }
-    printf("\n\n\n");
+    //printf("\n\n\n");
   }
   
   return ;
 }
 
-
-void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS){
-  int i = 0,j;
-  int long pos;
-  char temp[max_word_len];
-
-  while (i < max_word_len){
-
-    for(j=0;j<PMS[i].word_count;j++) {
-      pos = PMS[i].array_loc[j];
-      fseek(MASTER_FILE, pos, 0);
-      fscanf(MASTER_FILE, "%s\n", temp);
-      printf("Struct[%d].array_loc[%d] total: %d Word: %s Posn %ld \n",i, j, PMS[i].word_count, temp, pos);
-    }
-
-    i++;
-  }
-  
-  return ;
-
-}
 
 // based on the current (partially filled or intitially blank) word, guess a letter
 // current_word: current word -- may contain blanks, terminated by a null char as usual
@@ -285,7 +264,7 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	}
 	
 	if(is_new_word == false){
-		printf("GUESS: %s /// PREVIOUS GUESS: %s\n", guess, guess_again);
+		printf("GUESS: %c /// PREVIOUS GUESS: %c\n", guess, guess_again);
 		if(guess == guess_again){
 			printf("You are guessing the same guess as your last guess\n");
 			TEMP.letter_freq[best_guess] = -1;
@@ -430,6 +409,28 @@ void rewrite_letter_freq(char *current_word){
 	
 }
 
+
+
+void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS){
+  int i = 0,j;
+  int long pos;
+  char temp[max_word_len];
+
+  while (i < max_word_len){
+
+    for(j=0;j<PMS[i].word_count;j++) {
+      pos = PMS[i].array_loc[j];
+      fseek(MASTER_FILE, pos, 0);
+      fscanf(MASTER_FILE, "%s\n", temp);
+      printf("Struct[%d].array_loc[%d] total: %d Word: %s Posn %ld \n",i, j, PMS[i].word_count, temp, pos);
+    }
+
+    i++;
+  }
+  
+  return ;
+
+}
 
 void
 T_FREQ(PRIMARY *PMS){
