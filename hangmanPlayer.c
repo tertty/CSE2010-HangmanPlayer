@@ -199,7 +199,7 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	int check = 0; //The int that stores the index of the frequency we are checking
 	int best_guess = 0; //The variable that stores the index of the highest frequency letter
 	int length = strlen(current_word); //The length of the word
-	printf("The length of the word is &d\n", length);
+	printf("The length of the word is %d\n", length);
 	
 	// The for loop loops through every letter frequency of PMS[word_length] and compares the frequency of that letter
 	// with the frequency of the next letter. Whichever is greater, the index of that letter frequency is stored to best_guess.
