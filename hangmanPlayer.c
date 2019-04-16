@@ -178,7 +178,8 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	char guess = ' ';
 	int best_guess = 0; //The variable that stores the index of the highest frequency letter
 	int length = strlen(current_word) - 1; //The length of the word
-	printf("The length of the word is %d\n", length+1);
+	
+	printf("Len:%d WORD |*%s*|\n", length+1, current_word);
 	
 	static char guess_again=' ';
 	static int upper_bound;
@@ -187,9 +188,12 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	// with the frequency of the next letter. Whichever is greater, the index of that letter frequency is stored to best_guess.
 	for(int i = 0; i < 26; i++){
 		if(is_new_word==true){
+			/////// Dawson // For below if statement maybe have an array somewhere that
+			// holds letters w/ the same occurence, and a later alg to decide which one to pick
+			///////	
 			if(PMS[length].letter_freq[i] > PMS[length].letter_freq[best_guess]){
 				printf("i = %d\n", i);
-				printf("best_guess = %d\n", best_guess);
+				printf("best_guess[%d] = %c\n", best_guess, 97+best_guess);
 				best_guess = i;
 				printf("NEW best_guess = %d\n", best_guess);
 			}
@@ -358,6 +362,7 @@ void feedback_hangman_player(bool is_correct_guess, char* current_word)
 {
 	//James' work
 	if(is_correct_guess==true){
+		printf("Correct Guess: |*%s*|\n",current_word);
 		rewrite_letter_freq(current_word);
 	}
 	return;
@@ -486,9 +491,7 @@ void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS){
 
     i++;
   }
-  
   return ;
-
 }
 
 void
