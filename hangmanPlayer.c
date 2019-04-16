@@ -24,7 +24,7 @@
 typedef struct PRIMARY{
 	int word_count;
 	int letter_freq[26];
-	int *array_loc;
+	int long *array_loc;
 }PRIMARY;
 
   // Create overarching structure "PRIMARY MANAGMENT STRUCT"
