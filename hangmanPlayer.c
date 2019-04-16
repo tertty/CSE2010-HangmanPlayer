@@ -197,8 +197,8 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	//Initialize variables
 	char guess = ' ';
 	int best_guess = 0; //The variable that stores the index of the highest frequency letter
-	int length = strlen(current_word); //The length of the word
-	printf("The length of the word is %d\n", length);
+	int length = strlen(current_word) - 1; //The length of the word
+	printf("The length of the word is %d\n", length+1);
 	
 	static char guess_again=' ';
 	static int upper_bound;
@@ -207,7 +207,7 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	// with the frequency of the next letter. Whichever is greater, the index of that letter frequency is stored to best_guess.
 	for(int i = 0; i < 26; i++){
 		if(is_new_word==true){
-			if(PMS[length-1].letter_freq[i] > PMS[length-1].letter_freq[best_guess]){
+			if(PMS[length].letter_freq[i] > PMS[length].letter_freq[best_guess]){
 				printf("i = %d\n", i);
 				printf("best_guess = %d\n", best_guess);
 				best_guess = i;
@@ -215,7 +215,7 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 			}
 		}
 		else{
-			if((PMS[length-1].letter_freq[i] > PMS[length-1].letter_freq[best_guess]) && (PMS[length-1].letter_freq[i] < upper_bound)){
+			if((PMS[length].letter_freq[i] > PMS[length].letter_freq[best_guess]) && (PMS[length].letter_freq[i] < upper_bound)){
 				printf("else i = %d\n", i);
 				printf("else best_guess = %d\n", best_guess);
 				best_guess = i;
@@ -335,7 +335,7 @@ void feedback_hangman_player(bool is_correct_guess, char* current_word)
 void rewrite_letter_freq(char *current_word){
 	
 	//go to primary array with word len=current_word len
-	int len=strlen(current_word);
+	int len=strlen(current_word) - 1;
 	int counter = 0;
 	char copy[len];
 	
