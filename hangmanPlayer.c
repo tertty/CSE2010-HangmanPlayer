@@ -330,16 +330,21 @@ void rewrite_letter_freq(char *current_word){
 	//go to primary array with word len=current_word len
 	int len=strlen(current_word) - 1;
 	int counter = 0;
+	static int what_to_copy=0;  //used when copying from PMS or TEMP into TEMP
 	char copy[len];
-	for(int q=0;q<PMS[len].word_count;q++){
-		TEMP.array_loc[q]=PMS[len].array_loc[q];
-	}
-	for(int w=0;w<26;w++){
-		TEMP.letter_freq[w]=PMS[len].letter_freq[w];
+	if(what_to_copy==0){
+		for(int q=0;q<PMS[len].word_count;q++){
+			TEMP.array_loc[q]=PMS[len].array_loc[q];
+		}
+		for(int w=0;w<26;w++){
+			TEMP.letter_freq[w]=PMS[len].letter_freq[w];
+		}
+		TEMP.word_count=PMS[len].word_count;
+		what_to_copy++;
 	}
 	
-	for(int i=0;i<PMS[len].word_count;i++){
-		fseek(MASTER_FILE, PMS[len].array_loc[i], 0);
+	for(int i=0;i<TEMP.word_count;i++){
+		fseek(MASTER_FILE, TEMP.array_loc[i], 0);
 		fscanf(MASTER_FILE, "%s", copy);
 		for(int k=0;k<len;k++){
 			if(TEMP.array_loc[i] == -1){
@@ -347,8 +352,14 @@ void rewrite_letter_freq(char *current_word){
 			}
 			else{
 				if(current_word[k] == copy[k]){
-					TEMP.array_loc[counter] = TEMP.array_loc[i];
-					counter++;
+					if(counter==i){
+						counter++;
+						//do nothing, bc dont need to replace word with same word
+					}
+					else{
+						TEMP.array_loc[counter] = TEMP.array_loc[i];
+						counter++;
+					}
 				}
 			}
 		}
