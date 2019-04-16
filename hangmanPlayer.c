@@ -212,14 +212,15 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 				printf("best_guess = %d\n", best_guess);
 				best_guess = i;
 				printf("NEW best_guess = %d\n", best_guess);
+				is_new_word = false;
 			}
 		}
 		else{
 			if((PMS[length].letter_freq[i] > PMS[length].letter_freq[best_guess]) &&(PMS[length].letter_freq[i] < upper_bound)){
-				printf("i = %d\n", i);
-				printf("best_guess = %d\n", best_guess);
+				printf("else i = %d\n", i);
+				printf("else best_guess = %d\n", best_guess);
 				best_guess = i;
-				printf("NEW best_guess = %d\n", best_guess);
+				printf("else NEW best_guess = %d\n", best_guess);
 			}
 		}
 	}
