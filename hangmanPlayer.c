@@ -31,7 +31,7 @@ typedef struct PRIMARY{
   // Even if max_word_len is much over the actual max word, the wasted data
   // is neglagible since we find the acutal longest len before we malloc the larger file location arrays
   PRIMARY PMS[max_word_len];
-  
+  PRIMARY TEMP;
   FILE * MASTER_FILE;
 
 void WRITE(FILE *MASTER_FILE, PRIMARY *PMS);
@@ -95,7 +95,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
 
     // find the lenght of the word
     cur_len = strlen(c_word);
-
+  	TEMP->array_loc = (int long *) malloc(max_word_len * sizeof(int long));
     if (cur_len > true_max_len) {
       true_max_len = cur_len;
     }
