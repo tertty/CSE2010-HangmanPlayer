@@ -338,23 +338,29 @@ void rewrite_letter_freq(char *current_word){
 	int len=strlen(current_word) - 1;
 	int counter = 0;
 	char copy[len];
-	
+	for(int q=0;q<PMS[len].word_count;q++){
+		TEMP->array_loc[q]=PMS[len].array_loc[q];
+	}
+	for(int w=0;w<26;w++){
+		TEMP->letter_freq[w]=PMS[len].letter_freq[w];
+	}
 	
 	for(int i=0;i<PMS[len].word_count;i++){
 		fseek(MASTER_FILE, PMS[len].array_loc[i], 0);
 		fscanf(MASTER_FILE, "%s", copy);
 		for(int k=0;k<len;k++){
-			if(counter == -1){
+			if(TEMP->array_loc[i] == -1){
 				break;
 			}
 			else{
 				if(current_word[k] == copy[k]){
-					PMS[len].array_loc[counter] = PMS[len].array_loc[i];
+					TEMP->array_loc[counter] = TEMP->array_loc[i];
 					counter++;
 				}
 			}
 		}
-		counter = -1;
+		TEMP->array_loc[counter]=-1;
+		counter = 0;
 	}
 	
 	for(int p = 0; p<PMS[len].word_count; p++){
