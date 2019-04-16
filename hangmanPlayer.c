@@ -323,9 +323,7 @@ void feedback_hangman_player(bool is_correct_guess, char* current_word)
 	if(is_correct_guess==true){
 		rewrite_letter_freq(current_word);
 	}
-	else{
-		guess_hangman_player(current_word, false);
-	}
+	return;
 }
 
 void rewrite_letter_freq(char *current_word){
