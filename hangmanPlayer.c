@@ -266,6 +266,7 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 		default: return(guess);
 	}
 	
+	printf("You just guessed %c\n", guess);
 	return(guess); //Returns the new guess
 	
 }
