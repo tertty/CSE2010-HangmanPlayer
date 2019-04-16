@@ -1,13 +1,13 @@
 /*
 
   Authors (group members): Taylor Ertrachter (Leader), Noah Wilson, Matthew Dawson, James Spies
-  // Email addresses of group members: wilsonn2018@my.fit.edu, 
-  Group name: ~Dream Team~
-
+  Email addresses of group members: tertrachter2017@my.fit.edu, wilsonn2018@my.fit.edu, mdawson2018@my.fit.edu, jspies2017@my.fit.edu
+  Group name: Algorithms and Data DESTROYERS
   Course: CSE 2010
   Section: 23
 
-  Description of the overall algorithm: Lit af algorithm. Predicts the date of the end of the world
+  Description of the overall algorithm: The game of Hangman asks a player to guess a hidden wordone letter at a time. The player is allowed up to 6 incorrectguesses (body parts).  
+  This is how we would design a system that can guess letters/words correctly and quickly.
 
 
 */
@@ -266,13 +266,15 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 		default: return(guess);
 	}
 	
+	
+	//If the word the program wants to guess was previously guessed.
 	if(is_new_word == false){
 		printf("GUESS: %c /// PREVIOUS GUESS: %c\n", guess, guess_again);
 		if(guess == guess_again){
 			printf("You are guessing the same guess as your last guess\n");
 			PMS[length].letter_freq[best_guess] = -1;
 			for(int r = 0; r < 26; r++){
-				if((PMS[length].letter_freq[r] > PMS[length].letter_freq[best_guess]) && (PMS[length].letter_freq[r] > upper_bound)){
+				if((PMS[length].letter_freq[r] > PMS[length].letter_freq[best_guess])){
 					printf("r = %d\n", r);
 					printf("best_guess = %d\n", best_guess);
 					best_guess = r;
@@ -410,6 +412,7 @@ void rewrite_letter_freq(char *current_word){
 		counter = 0;
 	}
 	
+	//Update the frequency for each letter.
 	for(int p = 0; p<TEMP.word_count; p++){
 		fseek(MASTER_FILE, TEMP.array_loc[p], 0);
 		fscanf(MASTER_FILE, "%s", copy);
