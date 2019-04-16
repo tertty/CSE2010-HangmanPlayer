@@ -19,6 +19,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+#define max_word_len 27
 
 typedef struct PRIMARY{
 	int word_count;
@@ -32,7 +33,6 @@ typedef struct PRIMARY{
   PRIMARY PMS[max_word_len];
   PRIMARY TEMP;
   FILE * MASTER_FILE;
-  int max_word_len = 27;
 
 void WRITE(FILE *MASTER_FILE, PRIMARY *PMS);
 void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS);
@@ -106,8 +106,6 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
     printf("Len: %d Word: %s Len_Occurance:%d\n", cur_len, c_word, PMS[cur_len - 1].word_count);
 
   }
-  
-  max_word_len = true_max_len;
   
   /////////////////////////////
   /// END OF FIRST SCAN TO FIND
@@ -289,12 +287,12 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	
 	if(guess == guess_again){
 		printf("You are guessing the same guess as your last guess\n");
-		PMS[len].letter_freq[best_guess] = -1;
+		PMS[length].letter_freq[best_guess] = -1;
 		for(int r = 0; r < 26; r++){
-			if(PMS[length].letter_freq[i] > PMS[length].letter_freq[best_guess]){
-				printf("i = %d\n", i);
+			if(PMS[length].letter_freq[r] > PMS[length].letter_freq[best_guess]){
+				printf("i = %d\n", r);
 				printf("best_guess = %d\n", best_guess);
-				best_guess = i;
+				best_guess = r;
 				printf("NEW best_guess = %d\n", best_guess);
 			}
 		}
