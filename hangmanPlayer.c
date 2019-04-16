@@ -284,16 +284,18 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 		default: return(guess);
 	}
 	
-	printf("GUESS: %s /// PREVIOUS GUESS: %s\n", guess, guess_again);
-	if(guess == guess_again){
-		printf("You are guessing the same guess as your last guess\n");
-		TEMP.letter_freq[best_guess] = -1;
-		for(int r = 0; r < 26; r++){
-			if(TEMP.letter_freq[r] > TEMP.letter_freq[best_guess]){
-				printf("i = %d\n", r);
-				printf("best_guess = %d\n", best_guess);
-				best_guess = r;
-				printf("NEW best_guess = %d\n", best_guess);
+	if(is_new_word == false){
+		printf("GUESS: %s /// PREVIOUS GUESS: %s\n", guess, guess_again);
+		if(guess == guess_again){
+			printf("You are guessing the same guess as your last guess\n");
+			TEMP.letter_freq[best_guess] = -1;
+			for(int r = 0; r < 26; r++){
+				if(TEMP.letter_freq[r] > TEMP.letter_freq[best_guess]){
+					printf("i = %d\n", r);
+					printf("best_guess = %d\n", best_guess);
+					best_guess = r;
+					printf("NEW best_guess = %d\n", best_guess);
+				}
 			}
 		}
 	}
