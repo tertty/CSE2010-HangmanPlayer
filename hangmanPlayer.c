@@ -19,7 +19,6 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-#define max_word_len 27
 
 typedef struct PRIMARY{
 	int word_count;
@@ -33,6 +32,7 @@ typedef struct PRIMARY{
   PRIMARY PMS[max_word_len];
   PRIMARY TEMP;
   FILE * MASTER_FILE;
+  int max_word_len = 27;
 
 void WRITE(FILE *MASTER_FILE, PRIMARY *PMS);
 void T_PRINT(FILE *MASTER_FILE, PRIMARY *PMS);
@@ -106,6 +106,9 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
     printf("Len: %d Word: %s Len_Occurance:%d\n", cur_len, c_word, PMS[cur_len - 1].word_count);
 
   }
+  
+  max_word_len = true_max_len;
+  
   /////////////////////////////
   /// END OF FIRST SCAN TO FIND
   /// 1. True Max Length
@@ -229,85 +232,75 @@ char guess_hangman_player(char* current_word, bool is_new_word)
 	switch(best_guess){
 		
 		case 0: guess = 'a';
-				guess_again = guess;
 				break;
 		case 1: guess = 'b';
-				guess_again = guess;
 				break;
 		case 2: guess = 'c';
-				guess_again = guess;
 				break;
 		case 3: guess = 'd';
-				guess_again = guess;
 				break;
 		case 4: guess = 'e';
-				guess_again = guess;
 				break;
 		case 5: guess = 'f';
-				guess_again = guess;
 				break;
 		case 6: guess = 'g';
-				guess_again = guess;
 				break;
 		case 7: guess = 'h';
-				guess_again = guess;
 				break;
 		case 8: guess = 'i';
-				guess_again = guess;
 				break;
 		case 9: guess = 'j';
-				guess_again = guess;
 				break;
 		case 10: guess = 'k';
-				guess_again = guess;
 				break;
 		case 11: guess = 'l';
-				guess_again = guess;
 				break;
 		case 12: guess = 'm';
-				guess_again = guess;
 				break;
 		case 13: guess = 'n';
-				guess_again = guess;
 				break;
 		case 14: guess = 'o';
-				guess_again = guess;
 				break;
 		case 15: guess = 'p';
-				guess_again = guess;
 				break;
 		case 16: guess = 'q';
-				guess_again = guess;
 				break;
 		case 17: guess = 'r';
-				guess_again = guess;
 				break;
 		case 18: guess = 's';
-				guess_again = guess;
 				break;
 		case 19: guess = 't';
-				guess_again = guess;
 				break;
 		case 20: guess = 'u';
-				guess_again = guess;
 				break;
 		case 21: guess = 'v';
-				guess_again = guess;
 				break;
 		case 22: guess = 'w';
-				guess_again = guess;
 				break;
 		case 23: guess = 'x';
-				guess_again = guess;
 				break;
 		case 24: guess = 'y';
-				guess_again = guess;
 				break;
 		case 25: guess = 'z';
-				guess_again = guess;
 				break;
 		default: return(guess);
 	}
+	
+	
+	if(guess == guess_again){
+		printf("You are guessing the same guess as your last guess\n");
+		PMS[len].letter_freq[best_guess] = -1;
+		for(int r = 0; r < 26; r++){
+			if(PMS[length].letter_freq[i] > PMS[length].letter_freq[best_guess]){
+				printf("i = %d\n", i);
+				printf("best_guess = %d\n", best_guess);
+				best_guess = i;
+				printf("NEW best_guess = %d\n", best_guess);
+			}
+		}
+	}
+	
+	guess_again = guess;
 	
 	printf("You just guessed %c\n", guess);
 	return(guess); //Returns the new guess
