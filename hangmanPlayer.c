@@ -285,7 +285,7 @@ void feedback_hangman_player(bool is_correct_guess, char* current_word)
 		rewrite_letter_freq(current_word);
 	}
 	else{
-		guess_hangman_player(current_word, FALSE);
+		guess_hangman_player(current_word, false);
 	}
 }
 
@@ -303,7 +303,7 @@ void rewrite_letter_freq(char *current_word){
 			if(current_word[k]==copy[k]){
 				strcpy(PMS[len].array_loc[counter],copy);
 				counter++;
-			s}
+			}
 			counter=0;
 		}
 	}
