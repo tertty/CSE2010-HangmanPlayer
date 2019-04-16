@@ -95,7 +95,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
 
     // find the lenght of the word
     cur_len = strlen(c_word);
-  	TEMP->array_loc = (int long *) malloc(max_word_len * sizeof(int long));
+  	TEMP.array_loc = (int long *) malloc(max_word_len * sizeof(int long));
     if (cur_len > true_max_len) {
       true_max_len = cur_len;
     }
@@ -339,86 +339,86 @@ void rewrite_letter_freq(char *current_word){
 	int counter = 0;
 	char copy[len];
 	for(int q=0;q<PMS[len].word_count;q++){
-		TEMP->array_loc[q]=PMS[len].array_loc[q];
+		TEMP.array_loc[q]=PMS[len].array_loc[q];
 	}
 	for(int w=0;w<26;w++){
-		TEMP->letter_freq[w]=PMS[len].letter_freq[w];
+		TEMP.letter_freq[w]=PMS[len].letter_freq[w];
 	}
 	
 	for(int i=0;i<PMS[len].word_count;i++){
 		fseek(MASTER_FILE, PMS[len].array_loc[i], 0);
 		fscanf(MASTER_FILE, "%s", copy);
 		for(int k=0;k<len;k++){
-			if(TEMP->array_loc[i] == -1){
+			if(TEMP.array_loc[i] == -1){
 				break;
 			}
 			else{
 				if(current_word[k] == copy[k]){
-					TEMP->array_loc[counter] = TEMP->array_loc[i];
+					TEMP.array_loc[counter] = TEMP.array_loc[i];
 					counter++;
 				}
 			}
 		}
-		TEMP->array_loc[counter]=-1;
+		TEMP.array_loc[counter]=-1;
 		counter = 0;
 	}
 	
-	for(int p = 0; p<TEMP->word_count; p++){
-		fseek(MASTER_FILE, TEMP->[p], 0);
+	for(int p = 0; p<TEMP.word_count; p++){
+		fseek(MASTER_FILE, TEMP.array_loc[p], 0);
 		fscanf(MASTER_FILE, "%s", copy);
 		for(int q = 0; q<len; q++){
 			switch(q){
-				case 'a': TEMP->letter_freq[0]++;
+				case 'a': TEMP.letter_freq[0]++;
 						  break;
-				case 'b': TEMP->letter_freq[1]++;
+				case 'b': TEMP.letter_freq[1]++;
 						  break;
-				case 'c': TEMP->letter_freq[2]++;
+				case 'c': TEMP.letter_freq[2]++;
 						  break;
-				case 'd': TEMP->letter_freq[3]++;
+				case 'd': TEMP.letter_freq[3]++;
 						  break;
-				case 'e': TEMP->letter_freq[4]++;
+				case 'e': TEMP.letter_freq[4]++;
 						  break;
-				case 'f': TEMP->letter_freq[5]++;
+				case 'f': TEMP.letter_freq[5]++;
 						  break;
-				case 'g': TEMP->letter_freq[6]++;
+				case 'g': TEMP.letter_freq[6]++;
 						  break;
-				case 'h': TEMP->letter_freq[7]++;
+				case 'h': TEMP.letter_freq[7]++;
 						  break;
-				case 'i': TEMP->letter_freq[8]++;
+				case 'i': TEMP.letter_freq[8]++;
 						  break;
-				case 'j': TEMP->letter_freq[9]++;
+				case 'j': TEMP.letter_freq[9]++;
 						  break;
-				case 'k': TEMP->letter_freq[10]++;
+				case 'k': TEMP.letter_freq[10]++;
 						  break;
-				case 'l': TEMP->letter_freq[11]++;
+				case 'l': TEMP.letter_freq[11]++;
 						  break;
-				case 'm': TEMP->letter_freq[12]++;
+				case 'm': TEMP.letter_freq[12]++;
 						  break;
-				case 'n': TEMP->letter_freq[13]++;
+				case 'n': TEMP.letter_freq[13]++;
 						  break;
-				case 'o': TEMP->letter_freq[14]++;
+				case 'o': TEMP.letter_freq[14]++;
 						  break;
-				case 'p': TEMP->letter_freq[15]++;
+				case 'p': TEMP.letter_freq[15]++;
 						  break;
-				case 'q': TEMP->letter_freq[16]++;
+				case 'q': TEMP.letter_freq[16]++;
 						  break;
-				case 'r': TEMP->letter_freq[17]++;
+				case 'r': TEMP.letter_freq[17]++;
 						  break;
-				case 's': TEMP->letter_freq[18]++;
+				case 's': TEMP.letter_freq[18]++;
 						  break;
-				case 't': TEMP->letter_freq[19]++;
+				case 't': TEMP.letter_freq[19]++;
 						  break;
-				case 'u': TEMP->letter_freq[20]++;
+				case 'u': TEMP.letter_freq[20]++;
 						  break;
-				case 'v': TEMP->letter_freq[21]++;
+				case 'v': TEMP.letter_freq[21]++;
 						  break;
-				case 'w': TEMP->letter_freq[22]++;
+				case 'w': TEMP.letter_freq[22]++;
 						  break;
-				case 'x': TEMP->letter_freq[23]++;
+				case 'x': TEMP.letter_freq[23]++;
 						  break;
-				case 'y': TEMP->letter_freq[24]++;
+				case 'y': TEMP.letter_freq[24]++;
 						  break;
-				case 'z': TEMP->letter_freq[25]++;
+				case 'z': TEMP.letter_freq[25]++;
 						  break;
 			}
 		}
