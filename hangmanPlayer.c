@@ -298,7 +298,8 @@ void rewrite_letter_freq(char *current_word){
 	
 	
 	for(int i=0;i<PMS[len].word_count;i++){
-		strcpy(copy, PMS[len].array_loc[i]);
+		fseek(MASTER_FILE, PMS[len].array_loc[i], 0);
+		fscanf(MASTER_FILE, "%s", copy);
 		for(int k=0;k<len;k++){
 			if(current_word[k]==copy[k]){
 				strcpy(PMS[len].array_loc[counter],copy);
@@ -309,7 +310,8 @@ void rewrite_letter_freq(char *current_word){
 	}
 	
 	for(int p = 0; p<PMS[len].word_count; p++){
-		strcpy(copy, PMS[len].array_loc[p]);
+		fseek(MASTER_FILE, PMS[len].array_loc[i], 0);
+		fscanf(MASTER_FILE, "%s", copy);
 		for(int q = 0; q<len; q++){
 			switch(q){
 				case 'a': PMS[len].letter_freq[0]++;
