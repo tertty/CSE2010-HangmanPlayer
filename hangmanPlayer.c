@@ -294,7 +294,7 @@ void rewrite_letter_freq(char *current_word){
 	
 	//go to primary array with word len=current_word len
 	int len=strlen(current_word);
-	int counter=0;
+	int counter = 0;
 	char copy[len];
 	
 	
@@ -302,12 +302,17 @@ void rewrite_letter_freq(char *current_word){
 		fseek(MASTER_FILE, PMS[len].array_loc[i], 0);
 		fscanf(MASTER_FILE, "%s", copy);
 		for(int k=0;k<len;k++){
-			if(current_word[k]==copy[k]){
-				strcpy(PMS[len].array_loc[counter],copy);
-				counter++;
+			if(counter == -1){
+				break;
 			}
-			counter=0;
+			else{
+				if(current_word[k] == copy[k]){
+					PMS[len].array_loc[counter] = PMS[len].array_loc[i];
+					counter++;
+				}
+			}
 		}
+		counter = -1;
 	}
 	
 	for(int p = 0; p<PMS[len].word_count; p++){
