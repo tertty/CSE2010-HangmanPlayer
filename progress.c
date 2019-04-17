@@ -490,7 +490,7 @@ rewrite_letter_freq(char *current_word){
   // RESET ALL FREQ VALUES FOR EVERY LETTER OTHER THAN THOSE ALREADY GUESSED
   for(i=0; i<max_word_len; i++){
     if(TEMP.array_loc[i] != -2){
-      TEMP.array_loc[i] == 0;
+      TEMP.array_loc[i] = 0;
       letters_found++;
     }
   }
