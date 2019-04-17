@@ -332,7 +332,7 @@ char guess_hangman_player(char* current_word, bool is_new_word){
 void 
 feedback_hangman_player(bool is_correct_guess, char* current_word){
 int bad_word = 0;
-good_word = 0
+int good_word = 0;
 int key_position = 0;
 int counter = 0;
 int key_value = 0;
@@ -383,7 +383,7 @@ for(i=0; i<26; i++){
       fscanf(MASTER_FILE, "%s", copy);
       
       // 2nd LOOP: CHECK ALL THE LETTERS FOR THE BAD LETTER
-      for(k=0; k<length; k++){
+      for(int k=0; k<length; k++){
         bad_word = 0;
           // WE CAN SPEED THIS UP TO BREAK WHEN IF IS MET BUT FLAG IS SAFER FOR NOW
           if(key_letter == copy[k]){
@@ -417,9 +417,9 @@ for(i=0; i<26; i++){
 
       // ENSURE ALL POSITIONS OF LETTER ARE CHECKED
 
-      for(k=0; k<length; k++){
+      for(int k=0; k<length; k++){
         
-        if(current[k] == key_letter) && (copy[k] != key_letter){
+        if((current_word[k] == key_letter) && (copy[k] != key_letter)){
             bad_word = 1;
 
         }else if(copy[k] == key_letter){
