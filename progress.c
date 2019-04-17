@@ -473,73 +473,34 @@ for(i=0; i<26; i++){
 */
 
 
-int rewrite_letter_freq(char *current_word){
+int 
+rewrite_letter_freq(char *current_word){
   
   //go to primary array with word len=current_word len
   int length=strlen(current_word) - 1;
   int counter = 0;
+  int i=0, k=0, flag=0;
   int letters_found;
   char copy[max_word_len];
   char key_letter = ' ';
 
-// first update the LETTER_ARR table where
-//  0 means not found
-//  1 means just found
-// -1 means it was already found
+  // WE ALREADYT RESORTED ALL OF OUR VALUES WE JUST NEED TO GENERATE NEW FREQ AND BEST GUESS
+  // WE KNOW THAT VALUES of LETTER ARRAY[i] = -2 indicate already guessed values 
 
-////  Idea is later we can implement a better guessing algoritm
-//    This would allow us to tally frequences to left and right
-//    of every  
-//    |0|1|2|3|4|5|6|7| 8|9|10|11|12|....
-//    |a|b|c|d|e|f|g|h| i|j|k |l |m |.....
-//    |1|0|1|0|0|0|0|1|-1|0|-1|0 |0 |.....
-//
-//    actuall word:       Caleham
-//    what our prog sees: ca__ha_
-//
-//    From that we can calculate frequencies to the left and right of
-//    the areas that are non-zero
-//      
-////    
-
-
-
-
-for(int i=0; i<length; i++){
-  if(current_word[i] == 1)
-    letters_found++;
-}
-
-    // UPDATE or "re-sort" list based of every word with the newly found letter
-    // in that position
-    for(int i=0;i<TEMP.word_count;i++){
-      fseek(MASTER_FILE, TEMP.array_loc[i], 0);
-      fscanf(MASTER_FILE, "%s", copy);
-      for(int k=0; k<length; k++){
-        if(TEMP.array_loc[i] == -1){
-          break;
-        }
-        else{
-          if(current_word[k] == copy[k]){
-            if(counter==i){
-              counter++;
-              //do nothing, bc dont need to replace word with same word
-            }
-            else{
-              TEMP.array_loc[counter] = TEMP.array_loc[i];
-              counter++;
-            }
-          }
-        }
-      }
-      TEMP.array_loc[counter]=-1;
+  // RESET ALL FREQ VALUES FOR EVERY LETTER OTHER THAN THOSE ALREADY GUESSED
+  for(i=0; i<max_word_len; i++){
+    if(TEMP.array_loc[i] != -2){
+      TEMP.array_loc[i] == 0;
+      letters_found++;
     }
+  }
 
+  // CALUCLATE NEW FREQ
   for(int p = 0; p<TEMP.word_count; p++){
     fseek(MASTER_FILE, TEMP.array_loc[p], 0);
     fscanf(MASTER_FILE, "%s", copy);
     for(int q = 0; q<length; q++){
-      switch(q){
+      switch(copy[q]){
         case 'a': TEMP.letter_freq[0]++;
               break;
         case 'b': TEMP.letter_freq[1]++;
@@ -596,6 +557,26 @@ for(int i=0; i<length; i++){
     }
   }
 }
+
+// first update the LETTER_ARR table where
+//  0 means not found
+//  1 means just found
+// -1 means it was already found
+
+////  Idea is later we can implement a better guessing algoritm
+//    This would allow us to tally frequences to left and right
+//    of every  
+//    |0|1|2|3|4|5|6|7| 8|9|10|11|12|....
+//    |a|b|c|d|e|f|g|h| i|j|k |l |m |.....
+//    |1|0|1|0|0|0|0|1|-1|0|-1|0 |0 |.....
+//
+//    actuall word:       Caleham
+//    what our prog sees: ca__ha_
+//
+//    From that we can calculate frequencies to the left and right of
+//    the areas that are non-zero
+//      
+////    
 
 
 
