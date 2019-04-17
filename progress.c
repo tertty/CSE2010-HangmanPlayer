@@ -556,6 +556,16 @@ rewrite_letter_freq(char *current_word){
       }
     }
   }
+  int best_guess = 0;
+  int best_freq = 0;
+
+  for(i=0;i< TEMP.word_count; i++){
+    if(TEMP.letter_freq[i] > TEMP.letter_freq[best_guess]){
+        best_guess = i;
+        best_freq = TEMP.letter_freq[i];
+    }
+  }
+  return best_guess;
 }
 
 // first update the LETTER_ARR table where
