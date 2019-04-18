@@ -222,22 +222,17 @@ char guess_hangman_player(char* current_word, bool is_new_word){
       // COPY OVER PER PMS[LENGTH]FRQUENCIES
       for(w=0;w<26;w++){
         TEMP.letter_freq[w]=PMS[length].letter_freq[w];
-		LETTER_ARR[w]=PMS[length].letter_freq[w];
         // ALSO GRAB THE HIGHEST OCCURING FREQUENCY WORD for inital guess
-        
-		// Guesses highest freq vowel on first guess ************
-		if(((w == 0) || (w == 4) || (w == 8) || (w == 14) || (w == 20) || (w == 24)) &&(TEMP.letter_freq[w] > TEMP.letter_freq[best_guess])){
-			best_guess = w;
-			best_freq = TEMP. letter_freq[w];
-		}
-        
+        if(TEMP.letter_freq[w] > TEMP.letter_freq[best_guess]){
+          best_guess = w;
+          best_freq = TEMP.letter_freq[w];
+          // THINK ABOUT INITIAL DECITON IF THERE ARE MULTIPLE MATCHING FREQ
+        }
+        // RESET LETTER ARRAY
+        LETTER_ARR[w] = 0;
       }
       T_FREQ(PMS, length);
       printf("best initial guess[%d] = %c\n", best_guess, 97+best_guess);
-	  //Once best_guess is found, input -1 into the freq arrays so not guessing same letter again
-	  LETTER_ARR[best_guess] = -1;
-	  TEMP.letter_freq[best_guess] = -1;
-	  
   //if not a new word == FALSE, we can refine our next guess here, generate new freq
   }else{
       printf("SAME WORD\n");
@@ -532,6 +527,7 @@ rewrite_letter_freq(char *current_word){
           printf("%d--------Word:%s %c\n",q, copy, copy[q]);
 		switch(copy[q]){
           //printf("%d--------Word:%s %c\n",q, copy, copy[q]);
+
       switch(copy[q]){
         case 'a': TEMP.letter_freq[0]++;
               break;
@@ -585,15 +581,15 @@ rewrite_letter_freq(char *current_word){
               break;
         case 'z': TEMP.letter_freq[25]++;
               break;
-		}
-	  }
-	}
+      }
+    }
+  }
   }
   int best_guess = 0;
   int best_freq = 0;
 
   for(i=0; i<26; i++){
-    if((TEMP.letter_freq[i] != -3) && (TEMP.letter_freq[i] != -2)){
+    if((TEMP.letter_freq[i] != -3) || (TEMP.letter_freq[i] != -2)){
       if(TEMP.letter_freq[i] > TEMP.letter_freq[best_guess]){
           best_guess = i;
           best_freq = TEMP.letter_freq[i];
