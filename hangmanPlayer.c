@@ -47,7 +47,7 @@ int i, j;
   // !!!!! MASTER FILE MUST ALWAYS STAY ASSINGED TO ITS CURRENT MEM ADDRESS
   // !!!!!! i.e. never fclose this unless a win or loss occcurs
   if((MASTER_FILE = fopen(word_file, "r")) == 0){
-    printf("incorrect file 1 name \n");
+    //printf("incorrect file 1 name \n");
     fclose(MASTER_FILE);
     return ;
   }
@@ -74,7 +74,7 @@ int i, j;
   //T_PRINT(MASTER_FILE, PMS);
   //T_FREQ(PMS);
   fseek(MASTER_FILE, 0, SEEK_SET);
-  printf("\n");
+  //printf("\n");
   
   return ;
   
@@ -110,7 +110,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
     // Increment total amount of words for the found length
     // Must subtract to offset index
     PMS[cur_len - 1].word_count++;
-    printf("Len: %d Word: %s Len_Occurance:%d\n", cur_len, c_word, PMS[cur_len - 1].word_count);
+    //printf("Len: %d Word: %s Len_Occurance:%d\n", cur_len, c_word, PMS[cur_len - 1].word_count);
 
   }
   
@@ -122,9 +122,9 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
   // Create arrays to fill w/ the file position of word w/ coresponding length. We use true max to save memory
   // in case max_word_len will liekly be larger
   for (i = 0; i < true_max_len; i++) {
-    printf("%d", PMS[i].word_count);
+    //printf("%d", PMS[i].word_count);
     PMS[i].array_loc = (int *) malloc(PMS[i].word_count * sizeof(int)); // removed int long
-    printf("\n");
+    //printf("\n");
   }
   ///////////////////////////// Loop through for each length,  /////////////////////////////
   // Here we are adding in the locations of the word, and generating frequency
@@ -142,7 +142,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
         c_word[0] = tolower(c_word[0]);
         //pos = ftell(MASTER_FILE);
         PMS[i].array_loc[k] = pos;
-        printf("Struct[%d].array_loc[%d] Word: %s Posn: %d \n", i, k, c_word, pos);
+        //printf("Struct[%d].array_loc[%d] Word: %s Posn: %d \n", i, k, c_word, pos);
         k++;
 
         // Get frequency
@@ -157,7 +157,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
           //printf("%c - a = %d \n", c_word[j], l_var);
           PMS[cur_len-1].letter_freq[l_var]++;
         }
-        printf("\n");
+        //printf("\n");
       }
 
       pos = ftell(MASTER_FILE);
@@ -198,11 +198,11 @@ char guess_hangman_player(char* current_word, bool is_new_word){
   int best_guess = 0;                    //The variable that stores the index of the highest frequency letter
   int length = strlen(current_word) - 1; //The length of the word
 
-  printf("Len:%d Bool:%d WORD |*%s*| TOTAL WORD COUNT:%d\n", length+1, is_new_word, current_word, PMS[length].word_count);
+  //printf("Len:%d Bool:%d WORD |*%s*| TOTAL WORD COUNT:%d\n", length+1, is_new_word, current_word, PMS[length].word_count);
   
   // we know if its a new words we need to reset temp and fill with stuct of that len
   if(is_new_word == true){
-    printf("NEW WORD\n");
+    //printf("NEW WORD\n");
 
     // COPY WORD COUNT
     TEMP.word_count=PMS[length].word_count;
@@ -242,6 +242,12 @@ char guess_hangman_player(char* current_word, bool is_new_word){
   }else{
       printf("SAME WORD\n");
       // Call rewrite_letter_freq to get new best freq
+      //T_FREQ(PMS, length);
+      //printf("best initial guess[%d] = %c\n", best_guess, 97+best_guess);
+  //if not a new word == FALSE, we can refine our next guess here, generate new freq
+  }else{
+      //printf("SAME WORD\n");
+      // WE
       best_guess = rewrite_letter_freq(current_word);
     // *************************************************************
     //  // COPY OVER FRQUENCIES
@@ -259,7 +265,7 @@ char guess_hangman_player(char* current_word, bool is_new_word){
     // *************************************************************
   }
     //T_FREQ(PMS);
-    printf("GET BEST GUESS[%d]: %c, FREQ: %d \n", best_guess, 97+best_guess, TEMP.letter_freq[best_guess]);
+    //printf("GET BEST GUESS[%d]: %c, FREQ: %d \n", best_guess, 97+best_guess, TEMP.letter_freq[best_guess]);
 
     //This switch case sets the letter based on the cooresponding index. i.e. (1=a) (2=b) (3=c)
     switch(best_guess){
@@ -317,7 +323,7 @@ char guess_hangman_player(char* current_word, bool is_new_word){
       case 25: guess = 'z';
           break;
       default: 
-          printf("ERROR\n");
+          //printf("ERROR\n");
           return(guess);
     }
 
@@ -353,7 +359,7 @@ for(i=0; i<26; i++){
     //not sure here
     key_letter = (char*) (i+97);
     key_value =i+97;
-    printf("FEEDBACK: index_position:%d letter:%c value%d\n",key_position, key_letter, key_value);
+    //printf("FEEDBACK: index_position:%d letter:%c value%d\n",key_position, key_letter, key_value);
     break;
   }
 }
@@ -371,13 +377,13 @@ for(i=0; i<26; i++){
     // FLAG THE VALUE AS NO LONGER CURRENT GUESS OR AVAILABLE GUESS
     TEMP.letter_freq[key_position] = -3;
     
-    printf("WRONG GUESS: REMOVING WORDS CONTAINING : %c\n", key_letter);
+    //printf("WRONG GUESS: REMOVING WORDS CONTAINING : %c\n", key_letter);
     
     // 1ST LOOP: USED TO COPY IN EVERY WORD IN TEMP.array_loc[]
     for(i=0;i<TEMP.word_count;i++){
         
       if(TEMP.array_loc[i] == -1){
-        printf("TEMP.array_loc[i] == -1 ////ERROR");
+        //printf("TEMP.array_loc[i] == -1 ////ERROR");
         break;
       }
 
@@ -406,13 +412,13 @@ for(i=0; i<26; i++){
 
 //////////////////////// IF CORRECT GUESS  ///////////////////////////////////
   }else{
-    printf("Correct GUESS : %c\n", key_letter);
+    //printf("Correct GUESS : %c\n", key_letter);
     for(i=0;i<TEMP.word_count;i++){
       // RESET FLAGS
       bad_word =0;
       good_word = 0;  
       if(TEMP.array_loc[i] == -1){
-        printf("TEMP.array_loc[i] == -1 ////ERROR");
+        //printf("TEMP.array_loc[i] == -1 ////ERROR");
         break;
       }
 
@@ -443,7 +449,7 @@ for(i=0; i<26; i++){
       // FLAG THE VALUE AS NO LONGER CURRENT GUESS OR AVAILABLE GUESS
 
       TEMP.letter_freq[key_position] = -2;
-    printf("key posn%d should be -2: %d\n", key_position,  TEMP.letter_freq[key_position]);
+    //printf("key posn%d should be -2: %d\n", key_position,  TEMP.letter_freq[key_position]);
     }
   return;
 }
@@ -502,29 +508,31 @@ rewrite_letter_freq(char *current_word){
       TEMP.letter_freq[i] = 0;
       letters_found++;
     }else{
-      printf("TEMP.letter_freq[%d]" , i, TEMP.letter_freq[i]);
+      //printf("TEMP.letter_freq[%d]" , i, TEMP.letter_freq[i]);
     }
   }
 
-printf("****************************************************\n");
-  T_FREQ(PMS,length);
+//printf("****************************************************\n");
+  //T_FREQ(PMS,length);
 
   // CALUCLATE NEW FREQ
 
   for(int p = 0; p<TEMP.word_count; p++){
     fseek(MASTER_FILE, TEMP.array_loc[p], 0);
     fscanf(MASTER_FILE, "%s", copy);
-    printf("-++++++-Word:%s Word_Count%d lenght%d\n",copy, TEMP.word_count, length+1);
+    //printf("-++++++-Word:%s Word_Count%d lenght%d\n",copy, TEMP.word_count, length+1);
     for(int q = 0; q<=length; q++){
       key_letter=copy[q];
       key_value = key_letter - 0;
       key_position = key_value - 97;
       if((TEMP.letter_freq[key_position] < 0)){
-        printf("do nothing\n");
+        //printf("do nothing\n");
 
       }else{
           printf("%d--------Word:%s %c\n",q, copy, copy[q]);
 		switch(copy[q]){
+          //printf("%d--------Word:%s %c\n",q, copy, copy[q]);
+      switch(copy[q]){
         case 'a': TEMP.letter_freq[0]++;
               break;
         case 'b': TEMP.letter_freq[1]++;
@@ -534,7 +542,6 @@ printf("****************************************************\n");
         case 'd': TEMP.letter_freq[3]++;
               break;
         case 'e': TEMP.letter_freq[4]++;
-              printf("thefuck\n\n");
               break;
         case 'f': TEMP.letter_freq[5]++;
               break;
@@ -593,11 +600,11 @@ printf("****************************************************\n");
           //printf("best_guess: %d best_freq: %d current_freq: %d", best_guess, best_freq,TEMP.letter_freq[i]);
       }
     }
-      printf("best_guess: %d best_freq: %d current_freq: %d\n", best_guess, best_freq,TEMP.letter_freq[i]);
+      //printf("best_guess: %d best_freq: %d current_freq: %d\n", best_guess, best_freq,TEMP.letter_freq[i]);
   }
 
-  T_FREQ(PMS, length);
-  printf("************************ BEST GUESS: %d\n",best_guess );
+  //T_FREQ(PMS, length);
+  //printf("************************ BEST GUESS: %d\n",best_guess );
   return best_guess;
 }
 
