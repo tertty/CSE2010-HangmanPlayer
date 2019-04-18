@@ -231,12 +231,6 @@ char guess_hangman_player(char* current_word, bool is_new_word){
         // RESET LETTER ARRAY
         LETTER_ARR[w] = 0;
       }
-      T_FREQ(PMS, length);
-      printf("best initial guess[%d] = %c\n", best_guess, 97+best_guess);
-  //if not a new word == FALSE, we can refine our next guess here, generate new freq
-  }else{
-      printf("SAME WORD\n");
-      // Call rewrite_letter_freq to get new best freq
       //T_FREQ(PMS, length);
       //printf("best initial guess[%d] = %c\n", best_guess, 97+best_guess);
   //if not a new word == FALSE, we can refine our next guess here, generate new freq
@@ -524,10 +518,7 @@ rewrite_letter_freq(char *current_word){
         //printf("do nothing\n");
 
       }else{
-          printf("%d--------Word:%s %c\n",q, copy, copy[q]);
-		switch(copy[q]){
           //printf("%d--------Word:%s %c\n",q, copy, copy[q]);
-
       switch(copy[q]){
         case 'a': TEMP.letter_freq[0]++;
               break;
