@@ -518,6 +518,27 @@ rewrite_letter_freq(char *current_word){
 //printf("****************************************************\n");
   T_FREQ(PMS,length);
 
+  for(int t = 0; t < TEMP.word_count; t++){
+
+    if(TEMP.array_loc[t] != -1){
+
+      fseek(MASTER_FILE, TEMP.array_loc[t], 0);
+      fscanf(MASTER_FILE, "%s", copy);
+
+      for(int q = 0; q<=length; q++){
+
+        if((current_word[q] - 97 >= 0) && (copy[q] != current_word[q])){
+
+          TEMP.array_loc[t] = -1;
+
+        }
+
+      }
+
+    }
+
+  }
+
   // CALUCLATE NEW FREQ
 
   for(int p = 0; p<TEMP.word_count; p++){
@@ -528,12 +549,6 @@ rewrite_letter_freq(char *current_word){
       fscanf(MASTER_FILE, "%s", copy);
       //printf("-++++++-Word:%s Word_Count%d lenght%d\n",copy, TEMP.word_count, length+1);
       for(int q = 0; q<=length; q++){
-
-        if((current_word[q] - 97 > 0) && (copy[q] != current_word[q])){
-
-          TEMP.array_loc[p] = -1;
-
-        }
 
         key_letter=copy[q];
         key_value = key_letter - 0;
