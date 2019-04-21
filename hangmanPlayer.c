@@ -619,6 +619,13 @@ rewrite_letter_freq(char *current_word){
   int best_guess = 0;
   int best_freq = 0;
 
+  int vowel_counter = 0;
+  for(int q=0; q<sizeof(current_word); q++){
+	  if(current_word[q] == 'a' || current_word[q] == 'e' || current_word[q] == 'i' || current_word[q] == 'o' || current_word[q] == 'u'){
+		  vowel_counter++;
+	  }
+  }
+  
   for(i=0; i<26; i++){
     if((TEMP.letter_freq[i] != -3) && (TEMP.letter_freq[i] != -2)){
       if(TEMP.letter_freq[i] > TEMP.letter_freq[best_guess]){
@@ -626,9 +633,20 @@ rewrite_letter_freq(char *current_word){
           best_freq = TEMP.letter_freq[i];
           ////printf("best_guess: %d best_freq: %d current_freq: %d", best_guess, best_freq,TEMP.letter_freq[i]);
       }
+	  else if(TEMP.letter_freq[i] == TEMP.letter_freq[best_guess]){
+		if(vowel_counter <= 3){
+			if((i == 0) || (i == 4) || (i == 8) || (i == 14) || (i == 20) || (i == 24)){
+				best_guess = i;
+			}
+		}
+		else{
+			best_guess = best_guess;
+		}
+	}
     }
       //printf("best_guess: %d best_freq: %d current_freq: %d\n", best_guess, best_freq,TEMP.letter_freq[i]);
   }
+  
 
   T_FREQ(PMS, length);
   //printf("************************ BEST GUESS: %d\n",best_guess );
