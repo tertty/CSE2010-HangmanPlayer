@@ -386,33 +386,35 @@ for(i=0; i<26; i++){
     // 1ST LOOP: USED TO COPY IN EVERY WORD IN TEMP.array_loc[]
     for(i=0;i<TEMP.word_count;i++){
 
+		bad_word = 0;
+		
       if(TEMP.array_loc[i] == -1){
         //printf("TEMP.array_loc[i] == -1 ////ERROR");
-        break;
-      }
+      }else{
 
-      // COPY WORD AT FILE POSTION
-      fseek(MASTER_FILE, TEMP.array_loc[i], 0);
-      fscanf(MASTER_FILE, "%s", copy);
+		  // COPY WORD AT FILE POSTION
+		  fseek(MASTER_FILE, TEMP.array_loc[i], 0);
+		  fscanf(MASTER_FILE, "%s", copy);
 
-      // 2nd LOOP: CHECK ALL THE LETTERS FOR THE BAD LETTER
-      for(int k=0; k<=length; k++){
-        bad_word = 0;
-          // WE CAN SPEED THIS UP TO BREAK WHEN IF IS MET BUT FLAG IS SAFER FOR NOW
-          if(key_letter == copy[k]){
-            bad_word = 1;
-          }
-      }
-      // CHECK FLAG
-      if(bad_word != 1){
-          TEMP.array_loc[counter] = TEMP.array_loc[i];
-          counter++;
-      }
+		  // 2nd LOOP: CHECK ALL THE LETTERS FOR THE BAD LETTER
+		  for(int k=0; k<=length; k++){
+			  // WE CAN SPEED THIS UP TO BREAK WHEN IF IS MET BUT FLAG IS SAFER FOR NOW
+			  if(key_letter == copy[k]){
+				bad_word = 1;
+			  }
+		  }
+		  // CHECK FLAG
+		  if(bad_word == 1){
+			  TEMP.array_loc[i] = -1;
+			  counter++;
+		  }
+		  
+	  }
     }
     // FOR LOOP SEARCH COMPLETE, SET NEW WORD COUNT TO A NEWLY "SORTED" LENGTH
-    TEMP.array_loc[counter]=-1;
+    //TEMP.array_loc[counter]=-1;
 
-    TEMP.word_count = counter;
+    //TEMP.word_count = counter;
 
 //////////////////////// IF CORRECT GUESS  ///////////////////////////////////
   }else{
