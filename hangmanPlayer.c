@@ -361,7 +361,7 @@ for(i=0; i<26; i++){
   if(TEMP.letter_freq[i] == -1){
     key_position = i;
     //not sure here
-    key_letter = (char*) (i+97);
+    key_letter = (char) (i+97);
     key_value =i+97;
     //printf("FEEDBACK: index_position:%d letter:%c value%d\n",key_position, key_letter, key_value);
     break;
