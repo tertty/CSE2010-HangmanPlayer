@@ -190,11 +190,6 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
 char guess_hangman_player(char* current_word, bool is_new_word){
   //Initialize variables
   int q=0, w=0;
-  char guess = ' ';
-  char last_guess = ' ';
-  int counter = 0;
-  int best_freq = 0;
-  int guess_letter_index = 0;
   int best_guess = 0;                    //The variable that stores the index of the highest frequency letter
   int length = strlen(current_word) - 1; //The length of the word
 
@@ -227,7 +222,6 @@ char guess_hangman_player(char* current_word, bool is_new_word){
       		// Guesses highest freq vowel on first guess ************
       		if(((w == 0) || (w == 4) || (w == 8) || (w == 14) || (w == 20) || (w == 24)) && (TEMP.letter_freq[w] > TEMP.letter_freq[best_guess])){
       			best_guess = w;
-      			best_freq = TEMP. letter_freq[w];
       		}
 
         }else{
