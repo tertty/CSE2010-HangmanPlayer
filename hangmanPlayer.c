@@ -216,32 +216,32 @@ char guess_hangman_player(char* current_word, bool is_new_word){
     //  //printf("PMS[%d] TEMP.array_loc[%d] %d\n", length, q, TEMP.array_loc[q]);
     //  }
 
-    //"Flag" that no more locations exist beyond array index q, set word count
-    TEMP.array_loc[q] = -1;
-
       // COPY OVER PER PMS[LENGTH]FRQUENCIES
       for(w=0;w<26;w++){
+
         TEMP.letter_freq[w]=PMS[length].letter_freq[w];
-		LETTER_ARR[w]=PMS[length].letter_freq[w];
+		    LETTER_ARR[w]=PMS[length].letter_freq[w];
         // ALSO GRAB THE HIGHEST OCCURING FREQUENCY WORD for inital guess
 
-    if(length > 0){
-  		// Guesses highest freq vowel on first guess ************
-  		if(((w == 0) || (w == 4) || (w == 8) || (w == 14) || (w == 20) || (w == 24)) && (TEMP.letter_freq[w] > TEMP.letter_freq[best_guess])){
-  			best_guess = w;
-  			best_freq = TEMP. letter_freq[w];
-  		}
-    }else{
+        if(length > 0){
+      		// Guesses highest freq vowel on first guess ************
+      		if(((w == 0) || (w == 4) || (w == 8) || (w == 14) || (w == 20) || (w == 24)) && (TEMP.letter_freq[w] > TEMP.letter_freq[best_guess])){
+      			best_guess = w;
+      			best_freq = TEMP. letter_freq[w];
+      		}
 
-      if(TEMP.letter_freq[w] > TEMP.letter_freq[best_guess]){
+        }else{
 
-        best_guess = w;
+          if(TEMP.letter_freq[w] > TEMP.letter_freq[best_guess]){
+
+            best_guess = w;
+
+          }
+
+        }
 
       }
 
-    }
-
-      }
       T_FREQ(PMS, length);
       //printf("best initial guess[%d] = %c\n", best_guess, 97+best_guess);
 	  //Once best_guess is found, input -1 into the freq arrays so not guessing same letter again
@@ -271,71 +271,11 @@ char guess_hangman_player(char* current_word, bool is_new_word){
     //T_FREQ(PMS);
     //printf("GET BEST GUESS[%d]: %c, FREQ: %d \n", best_guess, 97+best_guess, TEMP.letter_freq[best_guess]);
 
-    //This switch case sets the letter based on the cooresponding index. i.e. (1=a) (2=b) (3=c)
-    switch(best_guess){
-
-      case 0: guess = 'a';
-          break;
-      case 1: guess = 'b';
-          break;
-      case 2: guess = 'c';
-          break;
-      case 3: guess = 'd';
-          break;
-      case 4: guess = 'e';
-          break;
-      case 5: guess = 'f';
-          break;
-      case 6: guess = 'g';
-          break;
-      case 7: guess = 'h';
-          break;
-      case 8: guess = 'i';
-          break;
-      case 9: guess = 'j';
-          break;
-      case 10: guess = 'k';
-          break;
-      case 11: guess = 'l';
-          break;
-      case 12: guess = 'm';
-          break;
-      case 13: guess = 'n';
-          break;
-      case 14: guess = 'o';
-          break;
-      case 15: guess = 'p';
-          break;
-      case 16: guess = 'q';
-          break;
-      case 17: guess = 'r';
-          break;
-      case 18: guess = 's';
-          break;
-      case 19: guess = 't';
-          break;
-      case 20: guess = 'u';
-          break;
-      case 21: guess = 'v';
-          break;
-      case 22: guess = 'w';
-          break;
-      case 23: guess = 'x';
-          break;
-      case 24: guess = 'y';
-          break;
-      case 25: guess = 'z';
-          break;
-      default:
-          //printf("ERROR\n");
-          return(guess);
-    }
-
     // HERE WE HAVE TO NOW FLAG THE LETTER WE GUESSED FROM OUR CURRENT FREQ
     // FLAG WITH VALUE OF -1
     TEMP.letter_freq[best_guess] = - 1;
     //LETTER_ARR[best_guess] = 1;
-    return (guess);
+    return ((char)(best_guess+97));
 }
 
 
@@ -386,8 +326,6 @@ for(i=0; i<26; i++){
     // 1ST LOOP: USED TO COPY IN EVERY WORD IN TEMP.array_loc[]
     for(i=0;i<TEMP.word_count;i++){
 
-		bad_word = 0;
-
       if(TEMP.array_loc[i] == -1){
         //printf("TEMP.array_loc[i] == -1 ////ERROR");
       }else{
@@ -400,13 +338,9 @@ for(i=0; i<26; i++){
   		  for(int k=0; k<=length; k++){
   			  // WE CAN SPEED THIS UP TO BREAK WHEN IF IS MET BUT FLAG IS SAFER FOR NOW
   			  if(key_letter == copy[k]){
-  				      bad_word = 1;
+  				      TEMP.array_loc[i] = -1;
   			  }
 
-  		  }
-  		  // CHECK FLAG
-  		  if(bad_word == 1){
-  			  TEMP.array_loc[i] = -1;
   		  }
 
 	  }
