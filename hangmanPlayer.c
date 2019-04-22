@@ -227,7 +227,7 @@ char guess_hangman_player(char* current_word, bool is_new_word){
 
     if(length > 0){
   		// Guesses highest freq vowel on first guess ************
-  		if(((w == 0) || (w == 4) || (w == 8) || (w == 14) || (w == 20) || (w == 24)) &&(TEMP.letter_freq[w] > TEMP.letter_freq[best_guess])){
+  		if(((w == 0) || (w == 4) || (w == 8) || (w == 14) || (w == 20) || (w == 24)) && (TEMP.letter_freq[w] > TEMP.letter_freq[best_guess])){
   			best_guess = w;
   			best_freq = TEMP. letter_freq[w];
   		}
@@ -344,15 +344,15 @@ char guess_hangman_player(char* current_word, bool is_new_word){
 // THIS FUNCTION IS USED TO RE-SORT THE ARRAY/LIST W/E INTO
 void
 feedback_hangman_player(bool is_correct_guess, char* current_word){
+
 int bad_word = 0;
 int good_word = 0;
 int key_position = 0;
-int counter = 0;
 int key_value = 0;
 int length = strlen(current_word) - 1;
 char key_letter = ' ';
 char copy[max_word_len];
-int i=0, K=0;
+int i=0;
 
 // GET LETTER GUESSED IN GUESS_HANG_MAN_PLAYER WERE WE FLAGED
 // TEMP.letter_freq[best_guess] = - 1;
@@ -387,28 +387,28 @@ for(i=0; i<26; i++){
     for(i=0;i<TEMP.word_count;i++){
 
 		bad_word = 0;
-		
+
       if(TEMP.array_loc[i] == -1){
         //printf("TEMP.array_loc[i] == -1 ////ERROR");
       }else{
 
-		  // COPY WORD AT FILE POSTION
-		  fseek(MASTER_FILE, TEMP.array_loc[i], 0);
-		  fscanf(MASTER_FILE, "%s", copy);
+  		  // COPY WORD AT FILE POSTION
+  		  fseek(MASTER_FILE, TEMP.array_loc[i], 0);
+  		  fscanf(MASTER_FILE, "%s", copy);
 
-		  // 2nd LOOP: CHECK ALL THE LETTERS FOR THE BAD LETTER
-		  for(int k=0; k<=length; k++){
-			  // WE CAN SPEED THIS UP TO BREAK WHEN IF IS MET BUT FLAG IS SAFER FOR NOW
-			  if(key_letter == copy[k]){
-				bad_word = 1;
-			  }
-		  }
-		  // CHECK FLAG
-		  if(bad_word == 1){
-			  TEMP.array_loc[i] = -1;
-			  counter++;
-		  }
-		  
+  		  // 2nd LOOP: CHECK ALL THE LETTERS FOR THE BAD LETTER
+  		  for(int k=0; k<=length; k++){
+  			  // WE CAN SPEED THIS UP TO BREAK WHEN IF IS MET BUT FLAG IS SAFER FOR NOW
+  			  if(key_letter == copy[k]){
+  				      bad_word = 1;
+  			  }
+
+  		  }
+  		  // CHECK FLAG
+  		  if(bad_word == 1){
+  			  TEMP.array_loc[i] = -1;
+  		  }
+
 	  }
     }
     // FOR LOOP SEARCH COMPLETE, SET NEW WORD COUNT TO A NEWLY "SORTED" LENGTH
@@ -419,45 +419,36 @@ for(i=0; i<26; i++){
 //////////////////////// IF CORRECT GUESS  ///////////////////////////////////
   }else{
     //printf("Correct GUESS : %c\n", key_letter);
-    for(i=0;i<TEMP.word_count;i++){
-      // RESET FLAGS
-      bad_word =0;
-      good_word = 0;
-      if(TEMP.array_loc[i] == -1){
-        //printf("TEMP.array_loc[i] == -1 ////ERROR");
-        break;
-      }
 
-      fseek(MASTER_FILE, TEMP.array_loc[i], 0);
-      fscanf(MASTER_FILE, "%s", copy);
-
-      // ENSURE ALL POSITIONS OF LETTER ARE CHECKED
-
-      for(int k=0; k<=length; k++){
-
-        if((current_word[k] == key_letter) && (copy[k] != key_letter)){
-            bad_word = 1;
-
-        }else if(copy[k] == key_letter){
-            good_word = 1;
-
-        }
-      }
-      // CHECK FLAG
-      if(good_word == 1){
-        if(bad_word == 0){
-         TEMP.array_loc[counter] = TEMP.array_loc[i];
-          counter++;
-        }
-      }
-    }
-      TEMP.array_loc[counter] = -1;
+      //TEMP.array_loc[counter] = -1;
       // FLAG THE VALUE AS NO LONGER CURRENT GUESS OR AVAILABLE GUESS
+
+      for(int t = 0; t < TEMP.word_count; t++){
+
+        if(TEMP.array_loc[t] != -1){
+
+          fseek(MASTER_FILE, TEMP.array_loc[t], 0);
+          fscanf(MASTER_FILE, "%s", copy);
+
+          for(int q = 0; q<=length; q++){
+
+            if((current_word[q] - 97 >= 0) && (copy[q] != current_word[q])){
+
+              TEMP.array_loc[t] = -1;
+
+            }
+
+          }
+
+        }
+
+      }
 
       TEMP.letter_freq[key_position] = -2;
     //printf("key posn%d should be -2: %d\n", key_position,  TEMP.letter_freq[key_position]);
     }
   return;
+
 }
 
 /*
@@ -521,30 +512,9 @@ rewrite_letter_freq(char *current_word){
 //printf("****************************************************\n");
   T_FREQ(PMS,length);
 
-  for(int t = 0; t < TEMP.word_count; t++){
-
-    if(TEMP.array_loc[t] != -1){
-
-      fseek(MASTER_FILE, TEMP.array_loc[t], 0);
-      fscanf(MASTER_FILE, "%s", copy);
-
-      for(int q = 0; q<=length; q++){
-
-        if((current_word[q] - 97 >= 0) && (copy[q] != current_word[q])){
-
-          TEMP.array_loc[t] = -1;
-
-        }
-
-      }
-
-    }
-
-  }
-
   // CALUCLATE NEW FREQ
 
-  for(int p = 0; p<TEMP.word_count; p++){
+  for(int p = 0; p < TEMP.word_count; p++){
 
     if(TEMP.array_loc[p] != -1){
 
@@ -556,69 +526,71 @@ rewrite_letter_freq(char *current_word){
         key_letter=copy[q];
         key_value = key_letter - 0;
         key_position = key_value - 97;
+
         if((TEMP.letter_freq[key_position] < 0)){
           //printf("do nothing\n");
 
         }else{
             //printf("%d--------Word:%s %c\n",q, copy, copy[q]);
-  		switch(copy[q]){
-          case 'a': TEMP.letter_freq[0]++;
-                break;
-          case 'b': TEMP.letter_freq[1]++;
-                break;
-          case 'c': TEMP.letter_freq[2]++;
-                break;
-          case 'd': TEMP.letter_freq[3]++;
-                break;
-          case 'e': TEMP.letter_freq[4]++;
-                break;
-          case 'f': TEMP.letter_freq[5]++;
-                break;
-          case 'g': TEMP.letter_freq[6]++;
-                break;
-          case 'h': TEMP.letter_freq[7]++;
-                break;
-          case 'i': TEMP.letter_freq[8]++;
-                break;
-          case 'j': TEMP.letter_freq[9]++;
-                break;
-          case 'k': TEMP.letter_freq[10]++;
-                break;
-          case 'l': TEMP.letter_freq[11]++;
-                break;
-          case 'm': TEMP.letter_freq[12]++;
-                break;
-          case 'n': TEMP.letter_freq[13]++;
-                break;
-          case 'o': TEMP.letter_freq[14]++;
-                break;
-          case 'p': TEMP.letter_freq[15]++;
-                break;
-          case 'q': TEMP.letter_freq[16]++;
-                break;
-          case 'r': TEMP.letter_freq[17]++;
-                break;
-          case 's': TEMP.letter_freq[18]++;
-                break;
-          case 't': TEMP.letter_freq[19]++;
-                break;
-          case 'u': TEMP.letter_freq[20]++;
-                break;
-          case 'v': TEMP.letter_freq[21]++;
-                break;
-          case 'w': TEMP.letter_freq[22]++;
-                break;
-          case 'x': TEMP.letter_freq[23]++;
-                break;
-          case 'y': TEMP.letter_freq[24]++;
-                break;
-          case 'z': TEMP.letter_freq[25]++;
-                break;
-  		}
+      		switch(copy[q]){
+              case 'a': TEMP.letter_freq[0]++;
+                    break;
+              case 'b': TEMP.letter_freq[1]++;
+                    break;
+              case 'c': TEMP.letter_freq[2]++;
+                    break;
+              case 'd': TEMP.letter_freq[3]++;
+                    break;
+              case 'e': TEMP.letter_freq[4]++;
+                    break;
+              case 'f': TEMP.letter_freq[5]++;
+                    break;
+              case 'g': TEMP.letter_freq[6]++;
+                    break;
+              case 'h': TEMP.letter_freq[7]++;
+                    break;
+              case 'i': TEMP.letter_freq[8]++;
+                    break;
+              case 'j': TEMP.letter_freq[9]++;
+                    break;
+              case 'k': TEMP.letter_freq[10]++;
+                    break;
+              case 'l': TEMP.letter_freq[11]++;
+                    break;
+              case 'm': TEMP.letter_freq[12]++;
+                    break;
+              case 'n': TEMP.letter_freq[13]++;
+                    break;
+              case 'o': TEMP.letter_freq[14]++;
+                    break;
+              case 'p': TEMP.letter_freq[15]++;
+                    break;
+              case 'q': TEMP.letter_freq[16]++;
+                    break;
+              case 'r': TEMP.letter_freq[17]++;
+                    break;
+              case 's': TEMP.letter_freq[18]++;
+                    break;
+              case 't': TEMP.letter_freq[19]++;
+                    break;
+              case 'u': TEMP.letter_freq[20]++;
+                    break;
+              case 'v': TEMP.letter_freq[21]++;
+                    break;
+              case 'w': TEMP.letter_freq[22]++;
+                    break;
+              case 'x': TEMP.letter_freq[23]++;
+                    break;
+              case 'y': TEMP.letter_freq[24]++;
+                    break;
+              case 'z': TEMP.letter_freq[25]++;
+                    break;
+      		}
   	  }
   	}
   }
   }
+
   int best_guess = 0;
   int best_freq = 0;
 
@@ -628,7 +600,7 @@ rewrite_letter_freq(char *current_word){
 		  vowel_counter++;
 	  }
   }
-  
+
   for(i=0; i<26; i++){
     if((TEMP.letter_freq[i] != -3) && (TEMP.letter_freq[i] != -2)){
       if(TEMP.letter_freq[i] > TEMP.letter_freq[best_guess]){
@@ -681,7 +653,7 @@ rewrite_letter_freq(char *current_word){
     }
       //printf("best_guess: %d best_freq: %d current_freq: %d\n", best_guess, best_freq,TEMP.letter_freq[i]);
   }
-  
+
 
   T_FREQ(PMS, length);
   //printf("************************ BEST GUESS: %d\n",best_guess );
