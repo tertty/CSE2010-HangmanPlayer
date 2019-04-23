@@ -547,17 +547,7 @@ rewrite_letter_freq(char *current_word){
 				best_guess = best_guess;
 			}
 		}
-		else if(length > 2 && length < 6){
-			if(vowel_counter <= 2){
-				if((i == 0) || (i == 4) || (i == 8) || (i == 14) || (i == 20) || (i == 24)){
-					best_guess = i;
-				}
-			}
-			else{
-				best_guess = best_guess;
-			}
-		}
-		else if(length > 5 && length < 9){
+		else if(length > 2 && length < 7){
 			if(vowel_counter <= 3){
 				if((i == 0) || (i == 4) || (i == 8) || (i == 14) || (i == 20) || (i == 24)){
 					best_guess = i;
@@ -567,8 +557,18 @@ rewrite_letter_freq(char *current_word){
 				best_guess = best_guess;
 			}
 		}
-		else{
+		else if(length > 6 && length < 10){
 			if(vowel_counter <= 4){
+				if((i == 0) || (i == 4) || (i == 8) || (i == 14) || (i == 20) || (i == 24)){
+					best_guess = i;
+				}
+			}
+			else{
+				best_guess = best_guess;
+			}
+		}
+		else{
+			if(vowel_counter <= 5){
 				if((i == 0) || (i == 4) || (i == 8) || (i == 14) || (i == 20) || (i == 24)){
 					best_guess = i;
 				}
