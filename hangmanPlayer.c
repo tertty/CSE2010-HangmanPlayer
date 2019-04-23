@@ -102,7 +102,6 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
 
     // find the lenght of the word
     cur_len = strlen(c_word);
-
     if (cur_len > true_max_len) {
       true_max_len = cur_len;
     }
