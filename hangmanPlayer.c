@@ -102,7 +102,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
 
     // find the lenght of the word
     cur_len = strlen(c_word);
-    TEMP.array_loc = (int *) malloc(max_word_len * sizeof(int)); // removed int long
+
     if (cur_len > true_max_len) {
       true_max_len = cur_len;
     }
@@ -113,7 +113,7 @@ void WRITE(FILE *MASTER_FILE, PRIMARY *PMS) {
     //printf("Len: %d Word: %s Len_Occurance:%d\n", cur_len, c_word, PMS[cur_len - 1].word_count);
 
   }
-
+    TEMP.array_loc = (int *) malloc(max_word_len * sizeof(int)); // removed int long
   /////////////////////////////
   /// END OF FIRST SCAN TO FIND
   /// 1. True Max Length
