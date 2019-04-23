@@ -557,7 +557,7 @@ rewrite_letter_freq(char *current_word){
 				best_guess = best_guess;
 			}
 		}
-		else if(length > 6 && length < 11){
+		else if(length > 6 && length < 10){
 			if(vowel_counter <= 4){
 				if((i == 0) || (i == 4) || (i == 8) || (i == 14) || (i == 20) || (i == 24)){
 					best_guess = i;
